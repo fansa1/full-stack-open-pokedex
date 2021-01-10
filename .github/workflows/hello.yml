@@ -11,5 +11,5 @@ jobs:
       - name: step2
         run: date
       - name: step3
-        run: ls-l
+        run: ls -l
       
