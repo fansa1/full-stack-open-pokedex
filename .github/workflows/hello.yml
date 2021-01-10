@@ -3,7 +3,7 @@ name: Hello World
 on: push
 
 jobs:
-  hello_world!:
+  hello_world:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
