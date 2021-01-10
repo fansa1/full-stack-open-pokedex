@@ -3,6 +3,11 @@ name: Hello World!
 on: push
 
 jobs:
-  hello_world_job:
+  hello_world_job:    
     runs-on: ubuntu-latest
-    run: echo Hello, world!   
+    steps:    
+    - uses: actions/checkout@v2
+          run: echo Hello, world!
+             run:|
+              date
+              ls-l
