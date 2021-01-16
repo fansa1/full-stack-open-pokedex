@@ -15,7 +15,7 @@ jobs:
           node-version: '12.x'
           command: npm run test:e2e
           start: npm run start-prod
-          wait-on: http://localhost:5000:  
+          wait-on: http://localhost:5000 
       - name: npm install 
         run: npm install  
       - name: lint
