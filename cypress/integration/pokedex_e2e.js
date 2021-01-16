@@ -10,7 +10,9 @@ describe('Pokedex', function() {
   })
   it('ivysaur can be clicked and contents of card loaded', function() {
     // eslint-disable-next-line no-undef
-    cy.visit('http://localhost:5000/pokemon/ivysaur')
+    cy.visit('http://localhost:5000')
+    // eslint-disable-next-line no-undef
+    cy.contains('ivysaur').click()
     // eslint-disable-next-line no-undef
     cy.contains('chlorophyll')
   // eslint-disable-next-line linebreak-style
