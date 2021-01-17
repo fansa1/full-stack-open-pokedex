@@ -29,7 +29,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "protected-reaches-72080" 
           heroku_email: "samuel.fanta@helsinki.fi" 
-          healthcheck: https://protected-reaches-72080/health.herokuapp.com
+          healthcheck: https://protected-reaches-72080.herokuapp.com/health
           checkstring: ok
-
+          rollbackonhealthcheckfailed: true
           
