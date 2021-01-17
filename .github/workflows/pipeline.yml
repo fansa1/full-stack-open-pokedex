@@ -31,5 +31,5 @@ jobs:
           heroku_email: "samuel.fanta@helsinki.fi" 
           healthcheck: https://protected-reaches-72080.herokuapp.com/health
           checkstring: ok
-
+          rollbackonhealthcheckfailed: true
           
