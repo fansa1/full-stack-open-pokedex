@@ -1,1 +1,1 @@
-web: nodekl app.js
+web: node app.js
