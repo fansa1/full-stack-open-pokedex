@@ -7,7 +7,7 @@ on:
     branches: [master]
     types: [opened, synchronize]
 jobs:
-  simple_deployment_pipeline:
+  test_deployment_pipeline:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -27,9 +27,9 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
-
-        if: ${{ github.event_name == 'push' }}
+        
       - uses: akhileshns/heroku-deploy@v3.8.9
+        if: github.event_name == 'push'
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "protected-reaches-72080" 
