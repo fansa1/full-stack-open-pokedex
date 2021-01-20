@@ -29,6 +29,7 @@ jobs:
           wait-on: http://localhost:5000
           
       - uses: anothrNick/github-tag-action@1.33.0
+        if: github.event_name == 'push'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
