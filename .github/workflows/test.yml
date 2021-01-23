@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  a_test_job:
+  a_test_job_skip:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -20,5 +20,5 @@ jobs:
         run: echo "$COMMITS"
       - name: commit messages
         env:
-          COMMIT_MESSAGES: ${{ contains(join(github.event.commits.*.message),'test') }}
+          COMMIT_MESSAGES: ${{ contains(join(github.event.commits.*.message),'skip') }}
         run: echo "$COMMIT_MESSAGES"
