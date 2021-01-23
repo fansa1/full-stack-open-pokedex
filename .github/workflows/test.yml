@@ -6,19 +6,16 @@ on:
       - master
 
 jobs:
-  a_test_job_skip:
+  a_test_job:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: gihub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: commits
-        env:
-          COMMITS: ${{ join(github.event.commits.*.message) }}
-        run: echo "$COMMITS"
-      - name: commit messages
-        env:
-          COMMIT_MESSAGES: ${{ contains(join(github.event.commits.*.message),'skip') }}
-        run: echo "$COMMIT_MESSAGES"
+      - uses: 8398a7/action-slack@v3
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      COMMIT_MESSAGES: ${{ contains(join(github.event.commits.*.message),'skip') }}
+   
+
+      
+      run: echo "$COMMIT_MESSAGES"
