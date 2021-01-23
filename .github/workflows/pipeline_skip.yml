@@ -17,8 +17,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
-        if: always()
+          fields: repo,message,commit,author,took 
       - name: npm install 
         run: npm install  
       - name: lint
@@ -26,6 +25,7 @@ jobs:
       
       - name: build
         run: npm run build
+        if: ${{ !success() }}
       - name: test
         run: npm run test
         
@@ -52,4 +52,5 @@ jobs:
           healthcheck: https://protected-reaches-72080.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
+          if: ${{ success() }}
           
