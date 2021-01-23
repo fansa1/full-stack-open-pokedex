@@ -46,8 +46,9 @@ jobs:
           DEFAULT_BUMP: patch 
           
       - uses: akhileshns/heroku-deploy@v3.8.9
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false && success()}} 
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false }} 
       - uses: 8398a7/action-slack@v3
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false && success() }} 
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         with:
