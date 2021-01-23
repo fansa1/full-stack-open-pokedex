@@ -47,6 +47,7 @@ jobs:
           
       - uses: akhileshns/heroku-deploy@v3.8.9
       - uses: 8398a7/action-slack@v3
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false && success()}} 
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         with:
@@ -58,6 +59,6 @@ jobs:
           healthcheck: https://protected-reaches-72080.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false && success()}}          
+                 
    
           
