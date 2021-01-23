@@ -7,7 +7,7 @@ on:
     branches: [master]
     types: [opened, synchronize]
 jobs:
-  test_deployment_pipeline:
+  test_deployment_pipeline#skip:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
