@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - uses: 8398a7/action-slack@v3
-        with:
-           status: ${{ job.status }}
-           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message
+      - name: Slack Notification
+      - uses: rtCamp/action-slack-notify@v2
        
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      SLACK_TITLE: Post Title
       COMMIT_MESSAGES: ${{ contains(join(github.event.commits.*.message),'skip') }}
       
       
