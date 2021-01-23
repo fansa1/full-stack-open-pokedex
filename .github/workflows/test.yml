@@ -1,21 +1,12 @@
-name: Testing stuff
-
-on:
-  push:
-    branches:
-      - master
-
+on: push
+name: Slack Notification Demo
 jobs:
-  a_test_job:
-    runs-on: ubuntu-18.04
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: rtCamp/action-slack-notify@v2
-       
-    env:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      SLACK_TITLE: Post Title
-      COMMIT_MESSAGES: ${{ contains(join(github.event.commits.*.message),'skip') }}
-      
-      
-      run: echo "$COMMIT_MESSAGES"
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
