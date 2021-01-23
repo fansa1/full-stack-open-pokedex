@@ -7,7 +7,7 @@ on:
     branches: [master]
     types: [opened, synchronize]
 jobs:
-  test_deployment_pipeline#skip:
+  test_deployment_pipeline_skip:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -29,14 +29,14 @@ jobs:
           wait-on: http://localhost:5000
           
       - uses: anothrNick/github-tag-action@1.33.0
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'#skip') == false }}
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip') == false }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch 
           
       - uses: akhileshns/heroku-deploy@v3.8.9
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'#skip') == false }}
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip') == false }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "protected-reaches-72080" 
