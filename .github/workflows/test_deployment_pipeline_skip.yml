@@ -64,7 +64,3 @@ jobs:
           status: ${{ job.status }}
           fields: repo,message,commit,author,took
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') && success() }}
-        
-      - uses: jtalk/url-health-check-action@v1.2
-        with:
-           url: https://testing_protected-reaches-72080.herokuapp.com/
