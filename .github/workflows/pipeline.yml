@@ -39,16 +39,16 @@ jobs:
           wait-on: http://localhost:5000
           
       - uses: anothrNick/github-tag-action@1.33.0
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false}}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip')}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch 
           
       - uses: akhileshns/heroku-deploy@v3.8.9
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false }} 
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') }} 
       - uses: 8398a7/action-slack@v3
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false && success() }} 
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') && success() }} 
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         with:
