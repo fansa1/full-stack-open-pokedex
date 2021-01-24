@@ -20,12 +20,12 @@ jobs:
       
       - name: build
         run: npm run build
-        
       - uses: 8398a7/action-slack@v3
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         with:
-          fields: repo,message,commit,author,took 
+          fields: repo,message,commit,author,took
+          status: ${{ job.status }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ !success() }}
         
       - name: test
