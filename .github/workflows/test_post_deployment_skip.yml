@@ -1,0 +1,70 @@
+name: Deployment pipeline
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+jobs:
+  test_deployment_pipeline:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+
+      - name: npm install 
+        run: npm install  
+      - name: lint
+        run: npm run eslint
+      
+      - name: build
+        run: npm run build
+      - uses: 8398a7/action-slack@v3
+        with:
+          fields: repo,message,commit,author,took
+          status: ${{ job.status }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ !success() }}
+        
+      - name: test
+        run: npm run test
+        
+      - uses: cypress-io/github-action@v2
+        with:
+          node-version: '12.x'
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+          
+      - uses: anothrNick/github-tag-action@1.33.0
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip')}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch 
+          
+      - uses: akhileshns/heroku-deploy@v3.8.9
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') }} 
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,took
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "protected-reaches-72080" 
+          heroku_email: "samuel.fanta@helsinki.fi" 
+          healthcheck: https://protected-reaches-72080.herokuapp.com/health
+          checkstring: ok
+          rollbackonhealthcheckfailed: true
+          
+      - uses: 8398a7/action-slack@v3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,took
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') && success() }}
+        
+      - uses: jtalk/url-health-check-action@v1.2
+        with:
+           url: https://protected-reaches-72080.herokuapp.com/
