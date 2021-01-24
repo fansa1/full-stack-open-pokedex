@@ -19,4 +19,4 @@ jobs:
     steps:
        - uses: jtalk/url-health-check-action@v1.2
          with:
-           url: https://testing_protected-reaches-72080.herokuapp.com/
+           url: https://protected-reaches-72080.herokuapp.com/
