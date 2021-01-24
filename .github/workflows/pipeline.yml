@@ -47,10 +47,6 @@ jobs:
           
       - uses: akhileshns/heroku-deploy@v3.8.9
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') }} 
-      - uses: 8398a7/action-slack@v3
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') && success() }} 
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,took
@@ -60,6 +56,15 @@ jobs:
           healthcheck: https://protected-reaches-72080.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
+          
+      - uses: 8398a7/action-slack@v3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,took
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') && success() }}
+   
                  
    
           
