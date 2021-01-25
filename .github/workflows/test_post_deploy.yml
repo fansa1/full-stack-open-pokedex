@@ -3,8 +3,9 @@
 name: post deploy scheduled check
 
 on:
- # schedule: - cron:  '*/5 * * * *'
- push
+ schedule: 
+  - cron:  '*/5 * * * *'
+ #push
 
 jobs:
 
@@ -23,4 +24,4 @@ jobs:
            status: ${{ job.status }}
          env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-         if: ${{ !success() }}
+         if: ${{ success() }}
