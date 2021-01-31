@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: post deploy scheduled check
+
+on:
+ #schedule: - cron:  '*/5 * * * *'
+ push
+
+jobs:
+
+  build:
+ 
+    runs-on: ubuntu-latest
+
+    steps:
+       - uses: jtalk/url-health-check-action@v1.2
+         with:
+           url: https://protected-reaches-72080.herokuapp.com/
+
+       - uses: 8398a7/action-slack@v3
+         with:
+           fields: repo,message,commit,author,took
+           status: ${{ job.status }}
+         env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+         if: ${{ success() }}

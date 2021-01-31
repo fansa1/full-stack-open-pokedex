@@ -39,14 +39,14 @@ jobs:
           wait-on: http://localhost:5000
           
       - uses: anothrNick/github-tag-action@1.33.0
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false}}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip')}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch 
           
       - uses: akhileshns/heroku-deploy@v3.8.9
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false }} 
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') }} 
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,took
@@ -63,8 +63,4 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,took
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message),'skip')==false && success() }}
-   
-                 
-   
-          
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'skip') && success() }}
